@@ -285,6 +285,8 @@ define openvpn::server (
   if !$tls_client {
     if $tls_server and !$extca_enabled {
       $real_tls_server = $tls_server
+    } elsif $tls_server and $extca_enabled and $proto == 'udp' {
+      $real_tls_server = $tls_server
     } elsif ($extca_enabled and $extca_dh_file) or (!$extca_enabled) {
       $real_tls_server = $proto ? {
         /tcp/   => true,
